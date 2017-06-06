@@ -29,6 +29,7 @@ import org.wso2.carbon.apimgt.core.models.API;
 import org.wso2.carbon.apimgt.core.models.Comment;
 import org.wso2.carbon.apimgt.core.models.DocumentInfo;
 import org.wso2.carbon.apimgt.core.models.Endpoint;
+import org.wso2.carbon.apimgt.core.models.Rating;
 import org.wso2.carbon.apimgt.core.models.UriTemplate;
 import org.wso2.carbon.apimgt.core.util.APIFileUtils;
 import org.wso2.carbon.apimgt.core.util.APIMgtConstants;
@@ -265,10 +266,8 @@ public class ApiFileDAOImpl implements ApiDAO {
      */
     @Override
     public void addEndpoint(Endpoint endpoint) throws APIMgtDAOException {
-        String endpointExportDirectory = storagePath + File.separator + APIMgtConstants.APIFileUtilConstants
-                .ENDPOINTS_ROOT_DIRECTORY;
-        APIFileUtils.createDirectory(endpointExportDirectory);
-        APIFileUtils.exportEndpointToFileSystem(endpoint, endpointExportDirectory);
+        // global endpoints are not supported in editor mode
+        throw new UnsupportedOperationException();
     }
 
     /**
@@ -276,18 +275,8 @@ public class ApiFileDAOImpl implements ApiDAO {
      */
     @Override
     public boolean deleteEndpoint(String endpointId) throws APIMgtDAOException {
-        String endpointPartialName = endpointId + APIMgtConstants.APIFileUtilConstants.JSON_EXTENSION;
-        String endpointFilePath = APIFileUtils
-                .findInFileSystem(new File(storagePath + File.separator + APIMgtConstants.APIFileUtilConstants
-                                .ENDPOINTS_ROOT_DIRECTORY),
-                        endpointPartialName);
-        if (endpointFilePath == null) {
-            String errorMsg = "Endpoint with Id" + endpointId + " not found.";
-            log.error(errorMsg);
-            throw new APIMgtDAOException(errorMsg);
-        }
-        APIFileUtils.deleteFile(endpointFilePath);
-        return true;
+        // global endpoints are not supported in editor mode
+        throw new UnsupportedOperationException();
     }
 
     /**
@@ -295,10 +284,8 @@ public class ApiFileDAOImpl implements ApiDAO {
      */
     @Override
     public boolean updateEndpoint(Endpoint endpoint) throws APIMgtDAOException {
-        String endpointExportDirectory = storagePath + File.separator + APIMgtConstants.APIFileUtilConstants
-                .ENDPOINTS_ROOT_DIRECTORY;
-        APIFileUtils.exportEndpointToFileSystem(endpoint, endpointExportDirectory);
-        return true;
+        // global endpoints are not supported in editor mode
+        throw new UnsupportedOperationException();
     }
 
     /**
@@ -306,15 +293,8 @@ public class ApiFileDAOImpl implements ApiDAO {
      */
     @Override
     public Endpoint getEndpoint(String endpointId) throws APIMgtDAOException {
-        String endpointPartialName = endpointId + APIMgtConstants.APIFileUtilConstants.JSON_EXTENSION;
-        String endpointFilePath = APIFileUtils
-                .findInFileSystem(new File(storagePath + File.separator + APIMgtConstants.APIFileUtilConstants
-                                .ENDPOINTS_ROOT_DIRECTORY),
-                        endpointPartialName);
-        if (endpointFilePath != null) {
-            return (Endpoint) constructObjectSummaryFromFile(endpointFilePath, Endpoint.class);
-        }
-        return null;
+        // global endpoints are not supported in editor mode
+        throw new UnsupportedOperationException();
     }
 
     /**
@@ -322,11 +302,8 @@ public class ApiFileDAOImpl implements ApiDAO {
      */
     @Override
     public Endpoint getEndpointByName(String name) throws APIMgtDAOException {
-        String endpointFilePath = APIFileUtils.findInFileSystem(new File(storagePath), name);
-        if (endpointFilePath != null) {
-            return (Endpoint) constructObjectSummaryFromFile(endpointFilePath, Endpoint.class);
-        }
-        return null;
+        // global endpoints are not supported in editor mode
+        throw new UnsupportedOperationException();
     }
 
     /**
@@ -334,16 +311,8 @@ public class ApiFileDAOImpl implements ApiDAO {
      */
     @Override
     public List<Endpoint> getEndpoints() throws APIMgtDAOException {
-        File[] files = new File(storagePath + File.separator + APIMgtConstants.APIFileUtilConstants
-                .ENDPOINTS_ROOT_DIRECTORY).listFiles();
-        List<Endpoint> endpointList = new ArrayList<>();
-        if (files != null) {
-            for (File file : files) {
-                endpointList.add((Endpoint) fetchObject(file, Endpoint.class, null));
-            }
-        }
-        endpointList.removeIf(Objects::isNull);
-        return endpointList;
+        // global endpoints are not supported in editor mode
+        throw new UnsupportedOperationException();
     }
 
     /**
@@ -431,7 +400,8 @@ public class ApiFileDAOImpl implements ApiDAO {
      */
     @Override
     public boolean isEndpointExist(String name) throws APIMgtDAOException {
-        return getEndpointByName(name) != null;
+        // global endpoints are not supported in editor mode
+        throw new UnsupportedOperationException();
     }
 
     /**
@@ -444,6 +414,22 @@ public class ApiFileDAOImpl implements ApiDAO {
     @Override
     public boolean isEndpointAssociated(String endpointId) throws APIMgtDAOException {
         return false;
+    }
+
+    /**
+     *
+     * @see ApiDAO#getAPIsByStatus(List, String)
+     */
+    @Override public List<API> getAPIsByStatus(List<String> gatewayLabels, String status) throws APIMgtDAOException {
+        throw new UnsupportedOperationException();
+    }
+
+    /**
+     *
+     * @see ApiDAO#getAPIsByGatewayLabel(List)
+     */
+    @Override public List<API> getAPIsByGatewayLabel(List<String> gatewayLabels) throws APIMgtDAOException {
+        throw new UnsupportedOperationException();
     }
 
     /**
@@ -484,6 +470,36 @@ public class ApiFileDAOImpl implements ApiDAO {
     }
 
     @Override
+    public void addRating(String apiId, Rating rating) throws APIMgtDAOException {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public Rating getRatingByUUID(String apiId, String ratingId) throws APIMgtDAOException {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public Rating getUserRatingForApiFromUser(String apiId, String userId) throws APIMgtDAOException {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public void updateRating(String apiId, String ratingId, Rating rating) throws APIMgtDAOException {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public List<Rating> getRatingsListForApi(String apiId) throws APIMgtDAOException {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public double getAverageRating(String apiId) throws APIMgtDAOException {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
     public List<UriTemplate> getResourcesOfApi(String apiContext, String apiVersion) throws APIMgtDAOException {
         throw new UnsupportedOperationException();
     }
@@ -510,10 +526,10 @@ public class ApiFileDAOImpl implements ApiDAO {
     }
 
     /**
-     * @see ApiDAO#getAPIsForProvider(String providerName)
+     * {@inheritDoc}
      */
     @Override
-    public List<API> getAPIsForProvider(String providerName) throws APIMgtDAOException {
+    public List<API> getAPIsForProvider(String providerName, ApiType apiType) throws APIMgtDAOException {
         throw new UnsupportedOperationException();
     }
 
@@ -553,11 +569,11 @@ public class ApiFileDAOImpl implements ApiDAO {
     }
 
     /**
-     * @see ApiDAO#attributeSearchAPIsStore(List roles, Map attributeMap, int offset, int limit)
+     * @see ApiDAO#searchAPIsByAttributeInStore(List roles, Map attributeMap, int offset, int limit)
      */
     @Override
-    public List<API> attributeSearchAPIsStore(List<String> roles, Map<String, String> attributeMap,
-                                              int offset, int limit) throws APIMgtDAOException {
+    public List<API> searchAPIsByAttributeInStore(List<String> roles, Map<String, String> attributeMap,
+                                                  int offset, int limit) throws APIMgtDAOException {
         throw new UnsupportedOperationException();
     }
 

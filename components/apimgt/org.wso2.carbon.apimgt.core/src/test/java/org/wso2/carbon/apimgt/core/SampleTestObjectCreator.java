@@ -25,6 +25,8 @@ import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.wso2.carbon.apimgt.core.dao.ApiType;
+import org.wso2.carbon.apimgt.core.dao.impl.DAOFactory;
+import org.wso2.carbon.apimgt.core.exception.APIMgtDAOException;
 import org.wso2.carbon.apimgt.core.models.API;
 import org.wso2.carbon.apimgt.core.models.APIStatus;
 import org.wso2.carbon.apimgt.core.models.Application;
@@ -34,8 +36,8 @@ import org.wso2.carbon.apimgt.core.models.CorsConfiguration;
 import org.wso2.carbon.apimgt.core.models.DocumentInfo;
 import org.wso2.carbon.apimgt.core.models.Endpoint;
 import org.wso2.carbon.apimgt.core.models.Label;
+import org.wso2.carbon.apimgt.core.models.Rating;
 import org.wso2.carbon.apimgt.core.models.UriTemplate;
-import org.wso2.carbon.apimgt.core.models.Workflow;
 import org.wso2.carbon.apimgt.core.models.WorkflowStatus;
 import org.wso2.carbon.apimgt.core.models.policy.APIPolicy;
 import org.wso2.carbon.apimgt.core.models.policy.ApplicationPolicy;
@@ -52,6 +54,8 @@ import org.wso2.carbon.apimgt.core.models.policy.RequestCountLimit;
 import org.wso2.carbon.apimgt.core.models.policy.SubscriptionPolicy;
 import org.wso2.carbon.apimgt.core.util.APIMgtConstants;
 import org.wso2.carbon.apimgt.core.util.APIMgtConstants.WorkflowConstants;
+import org.wso2.carbon.apimgt.core.workflow.ApplicationCreationWorkflow;
+import org.wso2.carbon.apimgt.core.workflow.Workflow;
 import org.wso2.carbon.lcm.core.impl.LifecycleState;
 
 import java.io.IOException;
@@ -714,8 +718,9 @@ public class SampleTestObjectCreator {
                 accessUrls(accessUrls);
     }
 
-    public static Workflow createWorkflow(String workflowReferenceID) {
-        Workflow workflow = new Workflow();
+    public static Workflow createWorkflow(String workflowReferenceID) throws APIMgtDAOException {
+        Workflow workflow = new ApplicationCreationWorkflow(DAOFactory.getApplicationDAO(),
+                DAOFactory.getWorkflowDAO());
         workflow.setExternalWorkflowReference(workflowReferenceID);
         workflow.setStatus(WorkflowStatus.CREATED);
         workflow.setCreatedTime(LocalDateTime.now());
@@ -755,5 +760,71 @@ public class SampleTestObjectCreator {
         comment.setCreatedTime(LocalDateTime.now());
         comment.setUpdatedTime(LocalDateTime.now());
         return comment;
+    }
+
+    public static Rating createDefaultRating(String apiId) {
+        Rating rating = new Rating();
+        rating.setUuid(UUID.randomUUID().toString());
+        rating.setApiId(apiId);
+        rating.setRating(4);
+        rating.setUsername("john");
+        rating.setLastUpdatedUser("john");
+        rating.setCreatedTime(LocalDateTime.now());
+        rating.setLastUpdatedTime(LocalDateTime.now());
+        return rating;
+    }
+
+    public static API.APIBuilder createDefaultAPIWithApiLevelEndpoint() {
+        Set<String> transport = new HashSet<>();
+        transport.add(HTTP);
+        transport.add(HTTPS);
+
+        Set<String> tags = new HashSet<>();
+        tags.add(TAG_CLIMATE);
+
+        Set<String> policies = new HashSet<>();
+        policies.add(GOLD_TIER);
+        policies.add(SILVER_TIER);
+        policies.add(BRONZE_TIER);
+
+        BusinessInformation businessInformation = new BusinessInformation();
+        CorsConfiguration corsConfiguration = new CorsConfiguration();
+        String permissionJson = "[{\"groupId\" : 1000, \"permission\" : "
+                + "[\"READ\",\"UPDATE\"]},{\"groupId\" : 1001, \"permission\" : [\"READ\",\"UPDATE\"]}]";
+        Map<String, Endpoint> endpointMap = new HashMap<>();
+        endpointMap.put(APIMgtConstants.PRODUCTION_ENDPOINT, new Endpoint.Builder().id(endpointId).name
+                ("api1-production--endpint").applicableLevel(APIMgtConstants.API_SPECIFIC_ENDPOINT).build());
+        API.APIBuilder apiBuilder = new API.APIBuilder(ADMIN, "WeatherAPI", API_VERSION).
+                id(UUID.randomUUID().toString()).
+                context("weather").
+                description("Get Weather Info").
+                lifeCycleStatus(APIStatus.CREATED.getStatus()).
+                lifecycleInstanceId(UUID.randomUUID().toString()).
+                endpoint(endpointMap).
+                wsdlUri("http://localhost:9443/echo?wsdl").
+                isResponseCachingEnabled(false).
+                cacheTimeout(60).
+                isDefaultVersion(false).
+                apiPolicy(APIMgtConstants.DEFAULT_API_POLICY).
+                transport(transport).
+                tags(tags).
+                policies(policies).
+                visibility(API.Visibility.PUBLIC).
+                visibleRoles(new HashSet<>()).
+                businessInformation(businessInformation).
+                corsConfiguration(corsConfiguration).
+                apiType(ApiType.STANDARD).
+                createdTime(LocalDateTime.now()).
+                createdBy(ADMIN).
+                updatedBy(ADMIN).
+                lastUpdatedTime(LocalDateTime.now()).
+                permission(permissionJson).
+                uriTemplates(getMockUriTemplates()).
+                apiDefinition(apiDefinition);
+        HashMap map = new HashMap();
+        map.put("1000", 6);
+        map.put("1001", 4);
+        apiBuilder.permissionMap(map);
+        return apiBuilder;
     }
 }
