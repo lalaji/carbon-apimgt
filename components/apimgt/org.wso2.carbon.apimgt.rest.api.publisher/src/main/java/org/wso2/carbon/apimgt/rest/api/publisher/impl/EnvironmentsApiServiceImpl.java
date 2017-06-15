@@ -10,7 +10,7 @@ import org.wso2.msf4j.Request;
         "2016-11-01T13:47:43.416+05:30")
 public class EnvironmentsApiServiceImpl extends EnvironmentsApiService {
     @Override
-    public Response environmentsGet(String apiId, String accept, String ifNoneMatch, String ifModifiedSince, Request
+    public Response environmentsGet(String apiId, String accept,  Request
             request) throws NotFoundException {
         // do some magic!
         return Response.ok().entity(new ApiResponseMessage(ApiResponseMessage.OK, "magic!")).build();

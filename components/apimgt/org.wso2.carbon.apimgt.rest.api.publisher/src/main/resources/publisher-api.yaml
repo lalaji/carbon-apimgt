@@ -130,7 +130,7 @@ paths:
             "provider:wso2*" will match an API if the provider of the API starts with "wso2".
 
             Supported attribute modifiers are [**name, version, context, lifeCycleStatus,
-            description, subcontext, doc, provider**]
+            description,provider,technicalOwner,businessOwner**]
 
             If no advanced attribute modifier has been specified, search will match the
             given query string against API Name.
@@ -563,7 +563,7 @@ paths:
       parameters:
         - $ref: '#/parameters/apiId'
         - in: formData
-          name: endpointId
+          name: apiDefinition
           description: Swagger definition of the API
           type: string
           required: true
@@ -2553,7 +2553,7 @@ paths:
             The entity of the request was in a not supported format.
 
 #-----------------------------------------------------
-# The attributes of the Endpoint existance check resource
+# The attributes of the Endpoint existence check resource
 #-----------------------------------------------------
     head:
       x-scope: apim:api_view
@@ -2614,8 +2614,8 @@ paths:
       parameters:
         - $ref: '#/parameters/endpointId'
         - $ref: '#/parameters/Content-Type'
-        - $ref: '#/parameters/If-Match'
-        - $ref: '#/parameters/If-Unmodified-Since'
+        - $ref: '#/parameters/If-Non-Match'
+        - $ref: '#/parameters/If-Modified-Since'
       tags:
         - Endpoint (individual)
       responses:
@@ -2647,7 +2647,7 @@ paths:
             $ref: '#/definitions/Error'
 
 #-----------------------------------------------------
-# Update a certain policy
+# Update an existing endpoint
 #-----------------------------------------------------
     put:
       x-scope: apim:api_view

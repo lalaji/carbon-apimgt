@@ -478,14 +478,13 @@ public class ApisApiServiceImpl extends ApisApiService {
      * @param limit       maximum documents to return
      * @param offset      starting position of the pagination
      * @param accept      Accept header value
-     * @param ifNoneMatch If-None-Match header value
      * @param request     msf4j request object
      * @return a list of document DTOs
      * @throws NotFoundException When the particular resource does not exist in the system
      */
     @Override
     public Response apisApiIdDocumentsGet(String apiId, Integer limit, Integer offset, String accept,
-                                          String ifNoneMatch, Request request) throws NotFoundException {
+                                          Request request) throws NotFoundException {
         String username = RestApiUtil.getLoggedInUsername();
         try {
             APIPublisher apiPublisher = RestAPIPublisherUtil.getApiPublisher(username);
@@ -508,14 +507,13 @@ public class ApisApiServiceImpl extends ApisApiService {
      * @param apiId             UUID of API
      * @param body              DTO object including the document's meta information
      * @param contentType       Content-Type header value
-     * @param ifMatch           If-Match header value
      * @param ifUnmodifiedSince If-Unmodified-Since header value
      * @param request           msf4j request object
      * @return newly added document meta info object
      * @throws NotFoundException When the particular resource does not exist in the system
      */
     @Override
-    public Response apisApiIdDocumentsPost(String apiId, DocumentDTO body, String contentType, String ifMatch,
+    public Response apisApiIdDocumentsPost(String apiId, DocumentDTO body, String contentType,
                                            String ifUnmodifiedSince, Request request) throws NotFoundException {
         try {
             String username = RestApiUtil.getLoggedInUsername();
@@ -759,15 +757,12 @@ public class ApisApiServiceImpl extends ApisApiService {
      *
      * @param apiId           UUID of the API
      * @param accept          Accept header value
-     * @param ifNoneMatch     If-None-Match header value
-     * @param ifModifiedSince If-Modified-Since header value
      * @param request         msf4j request object
      * @return lifecycle history of the API
      * @throws NotFoundException When the particular resource does not exist in the system
      */
     @Override
-    public Response apisApiIdLifecycleHistoryGet(String apiId, String accept, String ifNoneMatch,
-                                                 String ifModifiedSince, Request request) throws NotFoundException {
+    public Response apisApiIdLifecycleHistoryGet(String apiId, String accept, Request request) throws NotFoundException {
 
         String username = RestApiUtil.getLoggedInUsername();
         try {

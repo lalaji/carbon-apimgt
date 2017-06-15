@@ -210,14 +210,12 @@ public class EndpointsApiServiceImpl extends EndpointsApiService {
      * Retrieve all endpoints available
      *
      * @param accept          Accept header value
-     * @param ifNoneMatch     If-None-Match header value
-     * @param ifModifiedSince If-Modified-Since header
      * @param request         msf4j request object
      * @return A list of endpoints avaliable
      * @throws NotFoundException When the particular resource does not exist in the system
      */
     @Override
-    public Response endpointsGet(String accept, String ifNoneMatch, String ifModifiedSince, Request request)
+    public Response endpointsGet(String accept, Request request)
             throws NotFoundException {
         String username = "";
         try {
@@ -243,7 +241,7 @@ public class EndpointsApiServiceImpl extends EndpointsApiService {
     }
 
     @Override
-    public Response endpointsHead(String name, String accept, String ifNoneMatch, Request request) throws
+    public Response endpointsHead(String name, String accept, Request request) throws
             NotFoundException {
         String username = RestApiUtil.getLoggedInUsername();
         boolean status;
@@ -269,15 +267,12 @@ public class EndpointsApiServiceImpl extends EndpointsApiService {
      * @param body            Endpoint details to be added
      * @param contentType     Content-Type header value
      * @param accept          Accept header value
-     * @param ifNoneMatch     If-None-Match header value
-     * @param ifModifiedSince If-Modified-Since header
      * @param request         msf4j request object
      * @return Newly created endpoint details as the payload
      * @throws NotFoundException When the particular resource does not exist in the system
      */
     @Override
-    public Response endpointsPost(EndPointDTO body, String contentType, String accept, String ifNoneMatch,
-                                  String ifModifiedSince, Request request) throws NotFoundException {
+    public Response endpointsPost(EndPointDTO body, String contentType, String accept, Request request) throws NotFoundException {
         String username = "";
         try {
             APIPublisher apiPublisher = RestAPIPublisherUtil.getApiPublisher(username);
