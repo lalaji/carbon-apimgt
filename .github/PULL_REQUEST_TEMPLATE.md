@@ -76,7 +76,7 @@ environments.]
 - [ ] Use **forward slashes ("/")** to specify hierarchical relations between resources
 
 ##### Correctly use the HTTP methods
-- [ ] Does your newly added API method used appropriate HTTP verb by checking below usage of each.<br />
+- [ ] Does your newly added API method uses appropriate HTTP verb to match with below use-cases.<br />
 **GET** -used when to retrieve a (subset of) resources of a certain type.A safe and idempotent request method<br />
 **POST**-used to create new resources.NOT a safe or idempotent request method<br />
 **PUT**-used when to substitutes an existing complete resource.NOT a safe request method,but an idempotent request method<br />
