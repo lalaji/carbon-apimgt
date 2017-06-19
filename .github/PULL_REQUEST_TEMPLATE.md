@@ -95,7 +95,7 @@ environments.]
 
 ##### Use proper response status codes
 - [ ] Do you have verify the response status codes defined for your new API method by referring below use-cases.<br />
--**200 OK** -The request has been performed successfully. If the request was a GET, the requested resource is returned in the message body. If the request was a POST,the result of the requested action is described by the message body, or it is contained in the message body.<br />
+- **200 OK** -The request has been performed successfully. If the request was a GET, the requested resource is returned in the message body. If the request was a POST,the result of the requested action is described by the message body, or it is contained in the message body.<br />
 -**201 Created** -The request has been performed successfully. The URL of the newly created entity is contained in the Location header of the response.An ETag header should be returned with the current entity tag of the resource just created.<br />
 -**202 Accepted** -The processing of the request has started but will take some time. The success of the processing is not guaranteed and should be checked by the client.The body of the response message should provide information about the current state of the processing, as well as information about where the client can request updated status information at a later point in time;typically, the Content-Location header of the response contains a URL where this status information can be retrieved via GET.<br />
 -**303 See Other**-The response of the request is availablle as value of the Location header of the response message.<br />
