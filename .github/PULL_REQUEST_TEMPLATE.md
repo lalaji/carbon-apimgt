@@ -84,7 +84,7 @@ environments.]
 **DELETE**- used when to delete an existing resource.Once a DELETE request returned successfully with a "200 OK" response, following DELETE requests on the same URI will result in a "404 Not Found" response because there is no resource available with the URI of the deleted resource.NOT a safe or idempotent request method.
 
 ##### Use pagination support for resource retrieval<br />
-- [ ] Do you have defined the "offset" field[the position number of a resource where the retrieval should start] and "limit" field [maximum number of resources to retrieve] for request query string?
+- [ ] If you have defined a GET method to retrieve collection of data,do you have defined the "offset" field[the position number of a resource where the retrieval should start] and "limit" field [maximum number of resources to retrieve] in request query string to support pagination?
 
 ##### Use ETags support for handling client side caching[for GET requests] & concurrency control[for PUT/DELETE requests]<br />
 - [ ] **For GET requests**,have you considered to include request headers If-None-Match[value of the ETag header of the resource as retrieved last time]?<br />
