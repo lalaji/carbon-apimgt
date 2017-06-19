@@ -77,11 +77,11 @@ environments.]
 
 ##### Correctly use the HTTP methods
 - [ ] Does your newly added API method uses appropriate HTTP verb to match with below use-cases.<br />
-**GET** -used when to retrieve a (subset of) resources of a certain type.A safe and idempotent request method<br />
-**POST**-used to create new resources.NOT a safe or idempotent request method<br />
-**PUT**-used when to substitutes an existing complete resource.NOT a safe request method,but an idempotent request method<br />
-**PATCH**-used when to update an existing resource partially.NOT a safe request method or idempotent request method<br />
-**DELETE**- used when to delete an existing resource.Once a DELETE request returned successfully with a "200 OK" response, following DELETE requests on the same URI will result in a "404 Not Found" response because there is no resource available with the URI of the deleted resource.NOT a safe or idempotent request method.
+- **GET** -used when to retrieve a (subset of) resources of a certain type.A safe and idempotent request method<br />
+- **POST**-used to create new resources.NOT a safe or idempotent request method<br />
+- **PUT**-used when to substitutes an existing complete resource.NOT a safe request method,but an idempotent request method<br />
+- **PATCH**-used when to update an existing resource partially.NOT a safe request method or idempotent request method<br />
+- **DELETE**- used when to delete an existing resource.Once a DELETE request returned successfully with a "200 OK" response, following DELETE requests on the same URI will result in a "404 Not Found" response because there is no resource available with the URI of the deleted resource.NOT a safe or idempotent request method.
 
 ##### Use pagination support for resource retrieval<br />
 - [ ] If you have defined a GET method to retrieve collection of data,do you have defined the "offset" field[the position number of a resource where the retrieval should start] and "limit" field [maximum number of resources to retrieve] in request query string to support pagination?
