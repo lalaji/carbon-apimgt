@@ -28,14 +28,13 @@ public class PoliciesApiServiceImpl extends PoliciesApiService {
      * @param limit Maximum tiers to return in a single response
      * @param offset Starting position of the pagination
      * @param accept Accept header value
-     * @param ifNoneMatch If-None-Match header value
      * @param request ms4j request object
      * @return A list of tiers qualifying
      * @throws NotFoundException When the particular resource does not exist in the system
      */
     @Override
     public Response policiesTierLevelGet(String tierLevel, Integer limit, Integer offset, String accept,
-                                         String ifNoneMatch, Request request) throws NotFoundException {
+                                         Request request) throws NotFoundException {
         String username = RestApiUtil.getLoggedInUsername();
 
         log.info("Received Policy GET request for tierLevel " + tierLevel);
