@@ -82,7 +82,6 @@ environments.]
 **PUT**-used when to substitutes an existing complete resource.NOT a safe request method,but an idempotent request method<br />
 **PATCH**-used when to update an existing resource partially.NOT a safe request method or idempotent request method<br />
 **DELETE**- used when to delete an existing resource.Once a DELETE request returned successfully with a "200 OK" response, following DELETE requests on the same URI will result in a "404 Not Found" response because there is no resource available with the URI of the deleted resource.NOT a safe or idempotent request method.
-<br />
 
 ##### Use pagination support for resource retrieval<br />
 - [ ] Do you have defined the "offset" field[the position number of a resource where the retrieval should start] and "limit" field [maximum number of resources to retrieve] for request query string?
