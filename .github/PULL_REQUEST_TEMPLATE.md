@@ -62,11 +62,11 @@ environments.]
 #### For REST API Changes [Store,publisher,core]
 
 ##### Adhere to proper naming conventions
-- [ ] Do the names of **atomic resources**[A data-model exchange as a whole in an API] defined in your API are set as nouns?
-- [ ] Do the names of **collection resources**[A group of same data type of atomic resource which exchange in an API] defined in your API are set as nouns?
-- [ ] Do the names of **composite resources**[A group of different entity types manipulated in an API call] defined in your API are set as nouns?
-- [ ] Do the names of **controller resources**[used when to manipulate multiple resources in a single API call with data consistency] defined in your API are set as actions?
-- [ ] Do the names of **processing functional resources**[used to provide access to functions which process a resource eg:update a status of a resource] defined in your API are set as actions?
+- [ ] Do the names of **atomic resources**[A data-model exchange as a whole in an API] defined in your API are set as **nouns**?
+- [ ] Do the names of **collection resources**[A group of same data type of atomic resource which exchange in an API] defined in your API are set as **nouns**?
+- [ ] Do the names of **composite resources**[A group of different entity types manipulated in an API call] defined in your API are set as **nouns**?
+- [ ] Do the names of **controller resources**[used when to manipulate multiple resources in a single API call with data consistency] defined in your API are set as **actions**?
+- [ ] Do the names of **processing functional resources**[used to provide access to functions which process a resource eg:update a status of a resource] defined in your API are set as **actions**?
 - [ ] **Do not** name the controller resources/processing functional resources by means of URI-template
 - [ ] Do use **lower case** for **resource naming**
 - [ ] Do the **multi word named resources** define by separating with a ** dash ("-")**?
@@ -76,37 +76,37 @@ environments.]
 - [ ] Use **forward slashes ("/")** to specify hierarchical relations between resources
 
 ##### Correctly use the HTTP methods
-- [ ] Does your newly added API method used appropriate HTTP verb by checking below usage of each.
-**GET** -used when to retrieve a (subset of) resources of a certain type.A safe and idempotent request method
-**POST**-used to create new resources.NOT a safe or idempotent request method
-**PUT**-used when to substitutes an existing complete resource.NOT a safe request method,but an idempotent request method
-**PATCH**-used when to update an existing resource partially.NOT a safe request method or idempotent request method
+- [ ] Does your newly added API method used appropriate HTTP verb by checking below usage of each.<br />
+**GET** -used when to retrieve a (subset of) resources of a certain type.A safe and idempotent request method<br />
+**POST**-used to create new resources.NOT a safe or idempotent request method<br />
+**PUT**-used when to substitutes an existing complete resource.NOT a safe request method,but an idempotent request method<br />
+**PATCH**-used when to update an existing resource partially.NOT a safe request method or idempotent request method<br />
 **DELETE**- used when to delete an existing resource.Once a DELETE request returned successfully with a "200 OK" response, following DELETE requests on the same URI will result in a "404 Not Found" response because there is no resource available with the URI of the deleted resource.NOT a safe or idempotent request method.
-
+<br />
 ##### Use pagination support for resource retrieval
-- [ ] **Do you have defined the "offset" field[the position number of a resource where the retrieval should start] and "limit" field [maximum number of resources to retrieve] for request query string?**
+- [ ] Do you have defined the "offset" field[the position number of a resource where the retrieval should start] and "limit" field [maximum number of resources to retrieve] for request query string?
 
-##### Use ETags support for handling client side caching[for GET requests] & concurrency control[for PUT/DELETE requests]
-- [ ] **For GET requests**,have you considered to include request headers If-None-Match[value of the ETag header of the resource as retrieved last time]?
-- [ ] **For GET requests**,have you considered to compare the incoming header If-None-Match with server side stored value and if no change in the value,return the response code as "304 Not Modified" without returning the resource?
-- [ ] **For PUT/DELETE requests**,have you considered to include request header If-Match[value of the ETag header of the resource as retrieved last time ]?
-- [ ] **For PUT/DELETE requests**,have you considered to compare the request header If-Match with server side stored value and if the value has changed,response with the code "412 Precondition Failed"?
-- [ ] **Do not** handle etags scenario for GET requests which retrieve collection resources.[As yet APIM don't support it.]
+##### Use ETags support for handling client side caching[for GET requests] & concurrency control[for PUT/DELETE requests]<br />
+- [ ] **For GET requests**,have you considered to include request headers If-None-Match[value of the ETag header of the resource as retrieved last time]?<br />
+- [ ] **For GET requests**,have you considered to compare the incoming header If-None-Match with server side stored value and if no change in the value,return the response code as "304 Not Modified" without returning the resource?<br />
+- [ ] **For PUT/DELETE requests**,have you considered to include request header If-Match[value of the ETag header of the resource as retrieved last time ]?<br />
+- [ ] **For PUT/DELETE requests**,have you considered to compare the request header If-Match with server side stored value and if the value has changed,response with the code "412 Precondition Failed"?<br />
+- [ ] **Do not** handle etags scenario for GET requests which retrieve collection resources.[As yet APIM don't support it.]<br />
 
 ##### Use proper response status codes
-- [ ] Does your API change include adding a new API method? Then verify you have define the response status codes for your new API method by reffering below use-cases.
-**200 OK** -The request has been performed successfully. If the request was a GET, the requested resource is returned in the message body. If the request was a POST,the result of the requested action is described by the message body, or it is contained in the message body.
-**201 Created** -The request has been performed successfully. The URL of the newly created entity is contained in the Location header of the response.An ETag header should be returned with the current entity tag of the resource just created.
-**202 Accepted** -The processing of the request has started but will take some time. The success of the processing is not guaranteed and should be checked by the client.The body of the response message should provide information about the current state of the processing, as well as information about where the client can request updated status information at a later point in time;typically, the Content-Location header of the response contains a URL where this status information can be retrieved via GET.
-**303 See Other**-The response of the request is availablle as value of the Location header of the response message.
-  Typically, this status code is returned after the processing of a long running request is completed and the client retrieves the status of the long running request.
-**304 Not Modified**-The requesting client has already received the latest version of the requested resource, thus, the body of the response message must be empty.
-**400 Bad Request**-The request is invalid.[eg: syntax errors in expressions passed with the request are found, values are out of range, required data is missing etc].
-**401 Unauhtorized**-The request requires client authorization or the passed credentials are not accepted.
-**403 Forbidden**-The server understood the request but refused to perform it. For example, the request must be conditional but no condition has been specified.
-**404 Not Found**-The requested resource doesn't exist.
-**406 Not Acceptable**-The requested media type is not supported.
-**412 Precondition Failed**-The request has not been performed because one of the preconditions is not met.
-**415 Unsupported Media Type**-The entity of the request was in a not supported format.
+- [ ] Does your API change include adding a new API method? Then verify you have define the response status codes for your new API method by reffering below use-cases.<br />
+**200 OK** -The request has been performed successfully. If the request was a GET, the requested resource is returned in the message body. If the request was a POST,the result of the requested action is described by the message body, or it is contained in the message body.<br />
+**201 Created** -The request has been performed successfully. The URL of the newly created entity is contained in the Location header of the response.An ETag header should be returned with the current entity tag of the resource just created.<br />
+**202 Accepted** -The processing of the request has started but will take some time. The success of the processing is not guaranteed and should be checked by the client.The body of the response message should provide information about the current state of the processing, as well as information about where the client can request updated status information at a later point in time;typically, the Content-Location header of the response contains a URL where this status information can be retrieved via GET.<br />
+**303 See Other**-The response of the request is availablle as value of the Location header of the response message.<br />
+  Typically, this status code is returned after the processing of a long running request is completed and the client retrieves the status of the long running request.<br />
+**304 Not Modified**-The requesting client has already received the latest version of the requested resource, thus, the body of the response message must be empty.<br />
+**400 Bad Request**-The request is invalid.[eg: syntax errors in expressions passed with the request are found, values are out of range, required data is missing etc].<br />
+**401 Unauhtorized**-The request requires client authorization or the passed credentials are not accepted.<br />
+**403 Forbidden**-The server understood the request but refused to perform it. For example, the request must be conditional but no condition has been specified.<br />
+**404 Not Found**-The requested resource doesn't exist.<br />
+**406 Not Acceptable**-The requested media type is not supported.<br />
+**412 Precondition Failed**-The request has not been performed because one of the preconditions is not met.<br />
+**415 Unsupported Media Type**-The entity of the request was in a not supported format.<br />
 **5xx status codes**- denote severe errors at the server side or the network, or denote not implemented functions, etc.There is no need to document them explicitly for an API.
 
